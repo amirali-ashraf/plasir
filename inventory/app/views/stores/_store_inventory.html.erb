@@ -1,0 +1,16 @@
+<%= store.name %>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <%# <th scope="col">#</th> %>
+      <th scope="col">Shoe Model</th>
+      <th scope="col">Count</th>
+      <th scope="col">Show</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% store.stocks.last_records.each do |stock| %>
+    <%= render partial: 'store_stock', :locals => {:stock => stock } %>
+  <% end %>
+  </tbody>
+</table>
