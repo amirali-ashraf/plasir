@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Stores</h1>
+
+<div>
+  <div id='14' data-model-id=''><div>
+</div>
+
+<div id="stores">
+  <% @stores.each do |store| %>
+    <%= render store %>
+    <p>
+      <%= link_to "Show this store", store %>
+    </p>
+    
+        <% store.stocks.each do |stock|%>
+          <tr>
+            <th scope="row">1</th>
+            <td><%= stock.shoe_model.name %></td>
+            <td ><%= stock.count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<%= link_to "New store", new_store_path %>

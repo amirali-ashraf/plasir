@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  redis:
+      image: redis:6.2-alpine
+      restart: always
+      ports:
+        - '6379:6379'
+      command: redis-server --save 20 1
+      volumes: 
+        - /home/parham/tmp/redis:/data
+  db:
+    image: postgres
+    volumes:
+      - /home/parham/tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: parham
+  web:
+    build: ./inventory
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./inventory:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - producer
+      - consumer
+      - redis
+  producer:
+    build:
+      context: ./shoe-store
+      dockerfile: Dockerfile
+    command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
+      # - sidekiq
+    # restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./shoe-store:/app
+  consumer:
+    build:
+      context: ./shoe-store-consumer
+      dockerfile: Dockerfile
+    command: sh -c "ruby consumer.rb" # -e ${RAILS_ENV}
+      # - sidekiq
+    # restart: always
+    # ports:
+    #   - "8080:8080"
+    volumes:
+      - ./shoe-store-consumer:/app
+    depends_on:
+      - producer
+  

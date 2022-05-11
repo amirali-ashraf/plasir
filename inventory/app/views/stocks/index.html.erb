@@ -1,0 +1,23 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Stocks</h1>
+
+<div id="stocks">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <%# <th scope="col">#</th> %>
+        <th scope="col">Store</th>
+        <th scope="col">Shoe Model</th>
+        <th scope="col">Count</th>
+        <th scope="col">Show</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @stocks.each do |stock| %>
+      <%= render stock %>
+    <% end %>
+  </tbody>
+</div>
+
+<%= link_to "New stock", new_stock_path %>
