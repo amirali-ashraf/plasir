@@ -1,4 +1,4 @@
-<tr class="<%= stock.count < Stock::LOWER_THRESHOLD ? 'bg-danger text-white' : 'bg-white text-black' %>" id="<%= dom_id stock %>">
+<tr class="<%= stock.item_count < Stock::LOWER_THRESHOLD ? 'bg-danger text-white' : 'bg-white text-black' %>" id="<%= dom_id stock %>">
   <td>
     <%= stock.store.name %>
   </td>
@@ -8,7 +8,7 @@
   </td>
 
   <td id='<%= stock.store_id %>-<%= stock.shoe_model_id %>' data-shoe-model-id='<%= stock.shoe_model_id %>'>
-    <%= stock.count %>
+    <%= stock.item_count %>
   </td>
 
   <td>
