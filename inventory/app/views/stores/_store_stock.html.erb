@@ -1,0 +1,15 @@
+<tr class="<%= stock.item_count < Stock::LOWER_THRESHOLD ? 'bg-danger text-white' : 'bg-white text-black' %>" id="<%= dom_id stock %>">
+
+  <td>
+    <%= stock.shoe_model.name %>
+  </td>
+
+  <td id='<%= stock.store_id %>-<%= stock.shoe_model_id %>' data-shoe-model-id='<%= stock.shoe_model_id %>'>
+    <%= stock.item_count %>
+  </td>
+
+  <td>
+    <%= link_to "Show this stock", stock %>
+  </td>
+
+</tr>
