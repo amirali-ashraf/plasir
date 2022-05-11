@@ -4,7 +4,9 @@ class StoresController < ApplicationController
   # GET /stores or /stores.json
   def index
     # FeedServices::NewFeedService.new(1,1,1).call()
-    @stores = Store.all
+    @stores = Store
+      .includes(:stocks)
+      .all
   end
 
   # GET /stores/1 or /stores/1.json
