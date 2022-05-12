@@ -12,15 +12,10 @@ $(document).ready(function () {
     },
   
     received(data) {
-      console.log(data)
-      const element = $(`#${data.store_id}-${data.shoe_model_id}`);
-      getHighCount();
-      element.html(data.inventory);
-      if(data.inventory < 10) {
-        element.closest('tr').removeClass().addClass('bg-danger text-white');
-      } else {
-        element.closest('tr').removeClass();
-      }
+      $(`#${data.store_name}`).html(data.html_table);
+      $(`#${data.store_name}-badge-lower`).html(data.below_lower_limit_count);
+      $(`#${data.store_name}-badge-upper`).html(data.over_upper_limit_count);
+
     }
   });
 })
