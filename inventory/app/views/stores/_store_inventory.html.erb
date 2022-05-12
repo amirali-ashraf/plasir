@@ -6,11 +6,47 @@
       <th scope="col">Shoe Model</th>
       <th scope="col">Count</th>
       <th scope="col">Show</th>
+      <th scope="col">Move from / to</th>
     </tr>
   </thead>
   <tbody>
-  <% store.stocks.last_records.each do |stock| %>
-    <%= render partial: 'store_stock', :locals => {:stock => stock } %>
+  <% store.stocks.last_records.ordered.each do |stock| %>
+    <% item_type = 'bg-white text-black' %>
+    <% item_type = 'bg-white text-danger' if stock.item_count < Stock::LOWER_LIMIT %>
+    <% item_type = 'bg-white text-primary' if stock.item_count > Stock::UPPER_LIMIT %>
+    <tr class="<%= item_type %>" id="<%= dom_id stock %>">
+      <td>
+        <%= stock.shoe_model.name %>
+      </td>
+
+      <td id='<%= stock.store_id %>-<%= stock.shoe_model_id %>' data-shoe-model-id='<%= stock.shoe_model_id %>'>
+        <%= stock.item_count %>
+      </td>
+
+      <td>
+        <%= link_to "Show this stock", stock %>
+      </td>
+
+      <td class="text-center">
+        <% if stock.item_count < Stock::LOWER_LIMIT %>
+          <% stock.below_lower_limit_suggestions.each do |mstock|%>
+            <button type="button" class="btn btn-sm btn-danger mt-1 btn-block" onclick="moveItems(<%=mstock.store_id%>, <%=stock.store_id%>, <%=stock.shoe_model_id%>)">
+              Move from <%= mstock.store.name %> (<%= mstock.item_count %>) 
+            </button>
+          <% end %>
+          
+        <% elsif stock.item_count > Stock::UPPER_LIMIT %>
+         <% stock.over_upper_limit_suggestions.each do |mstock|%>
+            <button type="button" class="btn btn-sm btn-primary mt-1 btn-block" onclick="moveItems(<%=stock.store_id%>, <%=mstock.store_id%>, <%=stock.shoe_model_id%>)">
+              Move to <%= mstock.store.name %> (<%= mstock.item_count %>)
+            </button>
+          <% end %>
+        <% else %>
+          <p>-</p>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
   </tbody>
 </table>
+
