@@ -15,7 +15,6 @@
     
         <%# store.stocks.each do |stock|%>
           <tr>
-            <th scope="row">1</th>
             <td><%#= stock.shoe_model.name %></td>
             <td ><%#= stock.count %></td>
           </tr>
@@ -28,7 +27,7 @@
 <%= link_to "New store", new_store_path %>
 
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+<ul class="nav nav-pills" id="myTab" role="tablist">
   <% @stores.each do |store| %>
     <li class="nav-item" role="presentation">
       <button 
@@ -41,7 +40,9 @@
         aria-controls="<%= store.name.parameterize %>" 
         aria-selected="true"
       >
-      <%= store.name %>
+      <%= store.name %> 
+      <span id="<%= store.name.parameterize %>-badge-lower"  class="badge bg-danger"><%= store.stocks.last_records.below_lower_limit.size %></span>
+      <span id="<%= store.name.parameterize %>-badge-upper"  class="badge bg-primary"><%= store.stocks.last_records.over_upper_limit.size %></span>
       </button>
     </li>
   <% end %>
@@ -53,3 +54,19 @@
     </div>
   <% end %>
 </div>
+
+<script>
+function moveItems(from_store_id, to_store_id, shoe_model_id) {
+  // console.log(from_store_id, to_store_id, shoe_model_id);
+  $.post(
+    '/stocks/move', 
+    {
+      move_from_store_id: from_store_id,
+      move_to_store_id: to_store_id,
+      shoe_model_id: shoe_model_id
+    }, 
+    function(data) {
+      console.log(data);
+    });
+}
+</script>
