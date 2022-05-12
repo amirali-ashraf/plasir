@@ -21,6 +21,6 @@ EM.run {
     request.body = event.data
 
     response = http.request(request)
-    puts response.read_body
+    p response.read_body
   end
 }
