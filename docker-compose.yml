@@ -25,8 +25,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
-      - producer
-      - consumer
       - redis
   producer:
     build:
@@ -52,4 +50,5 @@ services:
       - ./shoe-store-consumer:/app
     depends_on:
       - producer
+      - web
   
