@@ -91,4 +91,17 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  config.before :all do
+    # ActiveRecord::Base.subclasses.each(&:delete_all)
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before :each do
+    DatabaseCleaner.start
+  end
+
+  config.append_after :each do
+    DatabaseCleaner.clean
+  end
+
 end
