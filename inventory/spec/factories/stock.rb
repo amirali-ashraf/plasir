@@ -2,19 +2,19 @@ FactoryBot.define do
   factory :stock do
 
     trait :eaton_store do
-      store {create :store, :eaton}
+      store {Store.find_by_name('Eaton') || (create :store, :eaton)}
     end
 
     trait :auburn_store do
-      store {create :store, :auburn}
+      store {Store.find_by_name('Auburn') || (create :store, :auburn)}
     end
 
     trait :bozza_shoe_model do
-      shoe_model {create :shoe_model, :bozza}
+      shoe_model {ShoeModel.find_by_name('BOZZA') || (create :shoe_model, :bozza)}
     end
 
     trait :rasien_shoe_model do
-      shoe_model {create :shoe_model, :bozza}
+      shoe_model {ShoeModel.find_by_name('RASIEN') || (create :shoe_model, :rasien)}
     end
 
     trait :low_item_count do
