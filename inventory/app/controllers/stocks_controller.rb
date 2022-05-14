@@ -63,65 +63,9 @@ class StocksController < ApplicationController
     to_store_id = params[:move_to_store_id].to_i
     shoe_model_id = params[:shoe_model_id].to_i
 
-    
-    Stock.transaction do
-      from_stock = Stock.lock
-      .where(store_id: from_store_id, shoe_model_id: shoe_model_id)
-      .where('item_count > ?', Stock::LOWER_LIMIT)
-      .last
-
-      to_stock = Stock.lock
-      .where(store_id: from_store_id, shoe_model_id: shoe_model_id)
-      .where('item_count < ?', Stock::LOWER_LIMIT)
-      .last
-
-      break if from_stock.nil? or to_stock.nil?
-
-      new_from_stock = Stock.create(
-      store_id: from_stock.store_id, 
-      shoe_model_id: from_stock.shoe_model_id, 
-      item_count: from_stock.item_count - 10
-      )
-      
-      new_to_stock = Stock.create(
-      store_id: to_stock.store_id, 
-      shoe_model_id: to_stock.shoe_model_id, 
-      item_count: to_stock.item_count + 10
-      )
-
-      break unless new_from_stock and new_to_stock
-
-      from_store = Store.find(from_stock.store_id)
-      to_store = Store.find(to_stock.store_id)
-
-      html_table = ApplicationController.render(
-        layout: false,
-        partial: 'stores/store_inventory',
-        locals: { store: from_store },
-      )
-
-
-      ActionCable.server.broadcast('feed_channel', {
-        html_table: html_table, 
-        below_lower_limit_count: from_store.stocks.last_records.below_lower_limit.size,
-        store_name: from_store.name.parameterize,
-        over_upper_limit_count: from_store.stocks.last_records.over_upper_limit.size
-      })
-
-      html_table = ApplicationController.render(
-        layout: false,
-        partial: 'stores/store_inventory',
-        locals: { store: to_store },
-      )
-      ActionCable.server.broadcast('feed_channel', {
-        html_table: html_table, 
-        below_lower_limit_count: to_store.stocks.last_records.below_lower_limit.size,
-        store_name: to_store.name.parameterize,
-        over_upper_limit_count: to_store.stocks.last_records.over_upper_limit.size
-      })
-      render json: {success: true} and return 
-    end
-    render json: {success: false} and return 
+    StockServices::MoveShoeModel.new(from_store_id, to_store_id, shoe_model_id).call()
+    StoreServices::BroadcastStoreStock.new(from_store_id).call()
+    StoreServices::BroadcastStoreStock.new(to_store_id).call()    
   end
 
   private
