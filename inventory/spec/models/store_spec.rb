@@ -1,4 +1,4 @@
-RSpec.describe Store do
+RSpec.describe Store, type: :model do
   context 'test:' do
     let!(:store_1) {create :store, :eaton}
 
