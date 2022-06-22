@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe Stock do
   context 'test:' do
     let!(:stock_low_eaton) {create :stock, :eaton_store, :bozza_shoe_model, :low_item_count}
