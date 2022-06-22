@@ -4,7 +4,7 @@ on: push
 jobs:
   verify:
     name: Test
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:11
