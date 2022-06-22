@@ -1,0 +1,51 @@
+name: Rails
+on: push
+
+jobs:
+  verify:
+    name: Test
+    runs-on: ubuntu
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: rails_github_actions
+          POSTGRES_DB: rails_github_actions_test
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+        - 6379:6379
+        options: --entrypoint redis-server
+     
+     steps:
+      - uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.0
+      - name: Install Dependencies
+      run: |
+        sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        yarn install
+      - name:
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          POSTGRES_USER: rails_github_actions
+          POSTGRES_PASSWORD: postgres
+        run:
+          cd inventory
+          bundle exec rspec
