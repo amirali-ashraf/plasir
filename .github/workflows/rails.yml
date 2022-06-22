@@ -59,4 +59,5 @@ jobs:
           POSTGRES_PASSWORD: postgres
         run: |
           cd inventory
+          ls
           bundle exec rspec
