@@ -37,6 +37,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          cd inventory
           gem install bundler
           bundle install --jobs 4 --retry 3
           yarn install
