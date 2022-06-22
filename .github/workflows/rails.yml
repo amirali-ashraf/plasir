@@ -24,28 +24,38 @@ jobs:
         - 6379:6379
         options: --entrypoint redis-server
      
-   steps:
-    - uses: actions/checkout@v1
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.1.2
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.0
-    - name: Install Dependencies
-    run: |
-      sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
-      gem install bundler
-      bundle install --jobs 4 --retry 3
-      yarn install
-    - name:
-      env:
-        RAILS_ENV: test
-        PGHOST: localhost
-        POSTGRES_USER: rails_github_actions
-        POSTGRES_PASSWORD: postgres
-      run:
-        cd inventory
-        bundle exec rspec
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.0
+      - name: Install Dependencies
+        run: |
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          yarn install
+      - name: Setup Test Database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          POSTGRES_USER: rails_github_actions
+          POSTGRES_PASSWORD: postgres
+        run: |
+          cd inventory
+          bundle exec rails db:create db:migrate
+
+      - name: Run Tests
+        env: 
+          RAILS_ENV: test
+          PGHOST: localhost
+          POSTGRES_USER: rails_github_actions
+          POSTGRES_PASSWORD: postgres
+        run: |
+          cd inventory
+          bundle exec rspec
