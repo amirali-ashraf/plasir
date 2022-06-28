@@ -22,51 +22,51 @@ services:
         constraints:
           - node.role == manager
           
-  web:
-    image: parhamash/plasir-inventory
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - ./inventory:/app
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-#       - redis
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
+#   web:
+#     image: parhamash/plasir-inventory
+#     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+#     volumes:
+#       - ./inventory:/app
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - db
+# #       - redis
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints:
+#           - node.role == manager
           
-  producer:
-    image: parhamash/plasir-shoe-store
-    command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
-      # - sidekiq
-    # restart: always
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./shoe-store:/app
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
+#   producer:
+#     image: parhamash/plasir-shoe-store
+#     command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
+#       # - sidekiq
+#     # restart: always
+#     ports:
+#       - "8080:8080"
+#     volumes:
+#       - ./shoe-store:/app
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints:
+#           - node.role == manager
           
-  consumer:
-    image: parhamash/plasir-shoe-store-consumer
-    command: sh -c "ruby consumer.rb" # -e ${RAILS_ENV}
-      # - sidekiq
-    # restart: always
-    # ports:
-    #   - "8080:8080"
-    volumes:
-      - ./shoe-store-consumer:/app
-    depends_on:
-      - producer
-      - web
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
+#   consumer:
+#     image: parhamash/plasir-shoe-store-consumer
+#     command: sh -c "ruby consumer.rb" # -e ${RAILS_ENV}
+#       # - sidekiq
+#     # restart: always
+#     # ports:
+#     #   - "8080:8080"
+#     volumes:
+#       - ./shoe-store-consumer:/app
+#     depends_on:
+#       - producer
+#       - web
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints:
+#           - node.role == manager
