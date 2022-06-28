@@ -71,5 +71,5 @@ services:
 #         constraints:
 #           - node.role == manager
 
-volume:
+volumes:
   plasir-db:
