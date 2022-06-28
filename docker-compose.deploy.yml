@@ -43,8 +43,8 @@ services:
     command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
       # - sidekiq
     # restart: always
-    ports:
-      - "8080:8080"
+#     ports:
+#       - "8080:8080"
 #     volumes:
 #       - ./shoe-store:/app
     deploy:
