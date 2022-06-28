@@ -8,12 +8,12 @@ require "net/http"
 
 p 'Hi'
 EM.run {
-  ws = Faye::WebSocket::Client.new('ws://producer:8080/')
+  ws = Faye::WebSocket::Client.new('ws://plasir_producer:8080/')
 
   ws.on :message do |event|
     data = JSON.parse(event.data)
 
-    url = URI("http://web:3000/api/v1/feeds")
+    url = URI("http://plasir_web:3000/api/v1/feeds")
 
     http = Net::HTTP.new(url.host, url.port)
     request = Net::HTTP::Post.new(url)
