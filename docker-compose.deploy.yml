@@ -16,6 +16,12 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: parham
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+          
   web:
     image: parhamash/plasir-inventory
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -31,6 +37,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          
   producer:
     image: parhamash/plasir-shoe-store
     command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
@@ -45,6 +52,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          
   consumer:
     image: parhamash/plasir-shoe-store-consumer
     command: sh -c "ruby consumer.rb" # -e ${RAILS_ENV}
