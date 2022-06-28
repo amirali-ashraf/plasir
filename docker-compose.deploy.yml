@@ -70,3 +70,6 @@ services:
 #       placement:
 #         constraints:
 #           - node.role == manager
+
+volume:
+  plasir-db:
