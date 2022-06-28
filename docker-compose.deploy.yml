@@ -7,18 +7,18 @@ services:
 #         - '6379:6379'
 #       command: redis-server --save 20 1
 #       volumes: 
-#         - ../tmp/redis:/data
+#         - tmp/redis:/data
   db:
     image: postgres
     volumes:
-      - ../tmp/db:/var/lib/postgresql/data
+      - tmp/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: parham
   web:
     image: parhamash/plasir-inventory
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - ./inventory:/app
     ports:
