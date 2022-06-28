@@ -1,13 +1,13 @@
 version: "3.9"
 services:
-  redis:
-      image: redis:6.2-alpine
-      restart: always
-      ports:
-        - '6379:6379'
-      command: redis-server --save 20 1
-      volumes: 
-        - ../tmp/redis:/data
+#   redis:
+#       image: redis:6.2-alpine
+#       restart: always
+#       ports:
+#         - '6379:6379'
+#       command: redis-server --save 20 1
+#       volumes: 
+#         - ../tmp/redis:/data
   db:
     image: postgres
     volumes:
@@ -25,7 +25,7 @@ services:
       - "3000:3000"
     depends_on:
       - db
-      - redis
+#       - redis
   producer:
     image: parhamash/plasir-shoe-store
     command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
