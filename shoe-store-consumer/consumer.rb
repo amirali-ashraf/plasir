@@ -13,7 +13,7 @@ EM.run {
   ws.on :message do |event|
     data = JSON.parse(event.data)
 
-    url = URI("http://plasir:3000/api/v1/feeds")
+    url = URI("http://web:3000/api/v1/feeds")
 
     http = Net::HTTP.new(url.host, url.port)
     request = Net::HTTP::Post.new(url)
