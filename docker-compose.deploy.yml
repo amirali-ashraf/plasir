@@ -31,6 +31,8 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      - RAILS_ENV=production
 #       - redis
     deploy:
       replicas: 1
