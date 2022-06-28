@@ -26,6 +26,11 @@ services:
     depends_on:
       - db
 #       - redis
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
   producer:
     image: parhamash/plasir-shoe-store
     command: sh -c "/app/bin/websocketd --port=8080 ruby inventory.rb" # -e ${RAILS_ENV}
@@ -35,6 +40,11 @@ services:
       - "8080:8080"
     volumes:
       - ./shoe-store:/app
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
   consumer:
     image: parhamash/plasir-shoe-store-consumer
     command: sh -c "ruby consumer.rb" # -e ${RAILS_ENV}
@@ -47,3 +57,8 @@ services:
     depends_on:
       - producer
       - web
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
