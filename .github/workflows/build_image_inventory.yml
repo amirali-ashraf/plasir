@@ -23,7 +23,7 @@ jobs:
         uses: docker/metadata-action@v4
         id: meta
         with:
-          images: parhamash/plasir
+          images: parhamash/plasir-inventory
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
