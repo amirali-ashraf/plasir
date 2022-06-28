@@ -8,7 +8,7 @@ require "net/http"
 
 p 'Hi'
 EM.run {
-  ws = Faye::WebSocket::Client.new('ws://plasir_producer_1:8080/')
+  ws = Faye::WebSocket::Client.new('ws://producer:8080/')
 
   ws.on :message do |event|
     data = JSON.parse(event.data)
