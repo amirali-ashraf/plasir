@@ -11,7 +11,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - plasir-db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -70,3 +70,7 @@ services:
 #       placement:
 #         constraints:
 #           - node.role == manager
+
+volume:
+  plasir-db:
+    external: true
