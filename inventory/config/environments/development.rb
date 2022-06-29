@@ -74,5 +74,6 @@ Rails.application.configure do
     "localhost",
     "plasir_web_1",
     "plasir.playground.dv",
+    "plasir_web"
   ]
 end
