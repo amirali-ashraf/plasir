@@ -107,7 +107,7 @@ volumes:
   nas-vol-2:
     driver_opts:
       type: cifs
-      device: "{NAS_ADDRESS_2}"
+      device: ${NAS_ADDRESS_2}
       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
 #   nas-vol:
 #     driver_opts:
