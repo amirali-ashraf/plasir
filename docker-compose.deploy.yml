@@ -36,8 +36,21 @@ services:
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       - APP_DATABASE_PASSWORD=${APP_DATABASE_PASSWORD}
 #       - redis
+    networks:
+      - traefik-public
     deploy:
       replicas: 1
+      labels:
+        - traefik.frontend.rule=Host:plasir.playground.dv
+        - traefik.enable=true
+        - traefik.port=3000
+        - traefik.tags=traefik-public
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https 
       placement:
         constraints:
           - node.role == manager
@@ -78,3 +91,8 @@ services:
 volumes:
   plasir-db:
   redis-vol:
+
+networks:
+  traefik-public:
+    driver: overlay
+    external: true
