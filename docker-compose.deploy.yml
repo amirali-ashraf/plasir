@@ -119,6 +119,8 @@ volumes:
       type: "nfs"
       o: "addr=${NFS_ADDRESS},nolock,soft,rw"
       device: ":/${NFS_PATH}"
+  pgcentral-cifs:
+    external: true
 
 networks:
   traefik-public:
