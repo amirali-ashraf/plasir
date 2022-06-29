@@ -7,7 +7,7 @@ services:
 #         - '6379:6379'
       command: redis-server --save 20 1
       volumes: 
-        - tmp/redis:/data
+        - redis-vol,:/data
   db:
     image: postgres
     volumes:
@@ -77,3 +77,4 @@ services:
 
 volumes:
   plasir-db:
+  redis-vol:
