@@ -73,5 +73,6 @@ Rails.application.configure do
     IPAddr.new("::/0"),
     "localhost",
     "plasir_web_1",
+    "plasir.playground.dv",
   ]
 end
