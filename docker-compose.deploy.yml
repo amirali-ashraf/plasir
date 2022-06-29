@@ -34,6 +34,7 @@ services:
     environment:
       - RAILS_ENV=production
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - APP_DATABASE_PASSWORD=${APP_DATABASE_PASSWORD}
 #       - redis
     deploy:
       replicas: 1
