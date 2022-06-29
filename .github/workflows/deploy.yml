@@ -1,0 +1,15 @@
+name: Deploy to production
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  portainer_webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Webhook
+        uses: distributhor/workflow-webhook
+        with:
+          url: ${{secrets.DEPLOYMENT_WEBHOOK}}
+  
