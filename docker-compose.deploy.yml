@@ -40,6 +40,9 @@ services:
 #       - RAILS_ENV=production
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       - APP_DATABASE_PASSWORD=${APP_DATABASE_PASSWORD}
+      - NAS_ADDRESS=${NAS_ADDRESS}
+      - NAS_USERNAME=${NAS_USERNAME}
+      - NAS_PASSWORD=${NAS_PASSWORD}
 #       - redis
     networks:
       - traefik-public
@@ -105,7 +108,7 @@ volumes:
     driver_opts:
       type: cifs
       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
-      device: "${NAS_ADDRESS_2}"
+      device: "${NAS_ADDRESS}"
 
 networks:
   traefik-public:
