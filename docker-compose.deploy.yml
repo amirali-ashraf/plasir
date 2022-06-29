@@ -1,13 +1,13 @@
 version: "3.9"
 services:
-#   redis:
-#       image: redis:6.2-alpine
-#       restart: always
+  redis:
+      image: redis:6.2-alpine
+      restart: always
 #       ports:
 #         - '6379:6379'
-#       command: redis-server --save 20 1
-#       volumes: 
-#         - tmp/redis:/data
+      command: redis-server --save 20 1
+      volumes: 
+        - tmp/redis:/data
   db:
     image: postgres
     volumes:
