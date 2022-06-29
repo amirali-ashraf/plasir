@@ -8,6 +8,8 @@ services:
       command: redis-server --save 20 1
       volumes: 
         - redis-vol:/data
+      networks:
+        - plasir-network
   db:
     image: postgres
     volumes:
@@ -16,6 +18,8 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: parham
+    networks:
+      - plasir-network
     deploy:
       replicas: 1
       placement:
@@ -38,6 +42,7 @@ services:
 #       - redis
     networks:
       - traefik-public
+      - plasir-network
     deploy:
       replicas: 1
       labels:
@@ -64,6 +69,8 @@ services:
 #       - "8080:8080"
 #     volumes:
 #       - ./shoe-store:/app
+    networks:
+      - plasir-network
     deploy:
       replicas: 1
       placement:
@@ -82,6 +89,8 @@ services:
     depends_on:
       - producer
       - web
+    networks:
+      - plasir-network
     deploy:
       replicas: 1
       placement:
@@ -96,3 +105,4 @@ networks:
   traefik-public:
     driver: overlay
     external: true
+  plasir-network:
