@@ -108,7 +108,7 @@ volumes:
     driver_opts:
       type: cifs
       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
-      device: ${NAS_ADDRESS}
+      device: "test"
 
 networks:
   traefik-public:
