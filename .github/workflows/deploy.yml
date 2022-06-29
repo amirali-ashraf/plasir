@@ -1,19 +1,19 @@
-name: Deploy to production
+# name: Deploy to production
 
-on:
-  release:
-    types: [published]
+# on:
+#   release:
+#     types: [published]
 
-jobs:
-  portainer_webhook:
-    needs: |
-      push_inventory_to_registry
-      push_to_shoe_store_registry
-      push_to_shoe_store_consumer_registry
-    runs-on: ubuntu-latest
-    steps:
-      - name: Webhook
-        uses: distributhor/workflow-webhook@v1          
-        with:
-          webhook_url: ${{secrets.DEPLOYMENT_WEBHOOK}}
+# jobs:
+#   portainer_webhook:
+#     needs: |
+#       push_inventory_to_registry
+#       push_to_shoe_store_registry
+#       push_to_shoe_store_consumer_registry
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Webhook
+#         uses: distributhor/workflow-webhook@v1          
+#         with:
+#           webhook_url: ${{secrets.DEPLOYMENT_WEBHOOK}}
   
