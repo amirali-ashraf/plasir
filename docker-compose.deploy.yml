@@ -29,8 +29,8 @@ services:
   web:
     image: parhamash/plasir-inventory
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails assets:precompile && bundle exec rails s -p 3000 -b '0.0.0.0'"
-#     volumes:
-#       - nas-vol-4:/app/nas
+    volumes:
+      - nfs-vol:/app/nas
 #       - ./inventory:/app
     ports:
       - "3000:3000"
@@ -114,6 +114,11 @@ volumes:
 #       type: cifs
 #       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
 #       device: "test"
+  nfs-vol:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_ADDRESS},nolock,soft,rw"
+      device: ":/${NFS_PATH}"
 
 networks:
   traefik-public:
