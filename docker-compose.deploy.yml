@@ -102,7 +102,7 @@ volumes:
   plasir-db:
   redis-vol:
   nas-vol:
-    driver-opts:
+    driver_opts:
       type: cifs
       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
       device: "${NAS_ADDRESS}"
