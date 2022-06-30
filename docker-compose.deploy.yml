@@ -115,11 +115,11 @@ volumes:
 #       type: cifs
 #       o: "username=${NAS_USER},password=${NAS_PASSWORD}"
 #       device: "test"
-  nfs-vol:
+  nfs-vol-images:
     driver_opts:
       type: "nfs"
-      o: "addr=${NFS_ADDRESS},nolock,soft,rw,vers=3"
-      device: ":/${NFS_PATH}"
+      o: "addr=${NFS_IMAGES_ADDRESS},nolock,soft,rw,vers=3"
+      device: ":/${NFS_IMAGES_PATH}"
 
 networks:
   traefik-public:
