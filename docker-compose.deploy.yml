@@ -118,7 +118,7 @@ volumes:
   nfs-vol:
     driver_opts:
       type: "nfs"
-      o: "addr=${NFS_ADDRESS},nolock,soft,rw"
+      o: "addr=${NFS_ADDRESS},nolock,soft,rw,vers=3"
       device: ":/${NFS_PATH}"
 
 networks:
