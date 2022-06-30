@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :stocks
   resources :shoe_models
   resources :stores
+  
+  get '/health_check', to: proc { [200, {}, ['success']] }
 
   post "/stocks/move" => "stocks#move"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
