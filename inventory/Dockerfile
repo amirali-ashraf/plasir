@@ -14,7 +14,7 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
-    CMD curl http://localhost/health_check
+    CMD curl -fs http://localhost/health_check || exit 1
 
 # Configure the main process to run when running the image
 CMD ["rails", "server", "-b", "0.0.0.0"]
