@@ -36,6 +36,8 @@ jobs:
           node-version: 16.0
       - name: Install Dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install
           sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
           cd inventory
           gem install bundler
